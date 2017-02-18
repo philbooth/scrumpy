@@ -81,7 +81,7 @@ and `criteria` is a subtree
 of properties to match against:
 
 ```js
-const nodes = scrumpy(tree, criteria);
+const nodes = scrumpy(tree, criteria)
 ```
 
 ### Options
@@ -93,11 +93,11 @@ You can use it
 to tweak the search behaviour:
 
 ```js
-const nodes = scrump(tree, criteria, {
+const nodes = scrumpy(tree, criteria, {
   recursive: false, // Set to false to only search the root level for matches.
   array: false,     // Set to false to ignore array items when searching.
   all: false        // Set to false to only return the first match (depth-first).
-}
+})
 ```
 
 ### Examples
@@ -119,7 +119,7 @@ const nodes = scrumpy(ast, {
 	  name: 'exports'
 	}
   }
-});
+})
 ```
 
 Find returns from a function,
@@ -141,7 +141,7 @@ const node = scrumpy(ast, {
   kind: 'const'
 }, {
   all: false
-});
+})
 ```
 
 ## Does it handle recursive/circular tree structures?
