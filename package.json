@@ -10,7 +10,9 @@
     "tree",
     "ast",
     "object",
-    "properties"
+    "properties",
+    "walk",
+    "traverse"
   ],
   "author": "Phil Booth <pmbooth@gmail.com> (https://philbooth.me/)",
   "main": "index.js",
