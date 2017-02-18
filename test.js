@@ -101,6 +101,17 @@ test('finds immediate match in array descendants when recursion is disabled but 
   )
 )
 
+test('finds matches in array descendants when array is disabled but recursion is enabled', () =>
+  assert.deepEqual(
+    scrumpy(
+      [ { foo: 'bar' }, { baz: 'qux', v: 1 }, { wibble: 'blee', glarg: { baz: 'qux', v: 2 } } ],
+      { baz: 'qux' },
+      { array: false }
+    ),
+    [ { baz: 'qux', v: 1 }, { baz: 'qux', v: 2 } ]
+  )
+)
+
 test('does not find match in array descendants when recursion and arrays are disabled', () =>
   assert.deepEqual(
     scrumpy(
