@@ -2,20 +2,26 @@
 
 module.exports = scrump
 
-function scrump (node, criteria, { recursive = true, array = true } = {}) {
+function scrump (node, criteria, { recursive = true, array = true, visited = new Set() } = {}) {
+  if (visited.has(node)) {
+    return []
+  }
+
+  visited.add(node)
+
   if (match(node, criteria)) {
     return [ node ]
   }
 
   if (Array.isArray(node) && array) {
-    return node.reduce((results, property) => {
-      return results.concat(scrump(property, criteria, { recursive, array }))
+    return node.reduce((results, item) => {
+      return results.concat(scrump(item, criteria, { recursive, array, visited }))
     }, [])
   }
 
   if (isObject(node) && recursive) {
     return Object.keys(node).reduce((results, key) => {
-      return results.concat(scrump(node[key], criteria))
+      return results.concat(scrump(node[key], criteria, { visited }))
     }, [])
   }
 

@@ -122,3 +122,17 @@ test('finds matches in non-root array descendants', () =>
   )
 )
 
+test('finds match in infinitely recursive trees', () => {
+  const recursive = {
+    foo: {
+      bar: {
+        baz: {
+          qux: 'qux'
+        }
+      }
+    }
+  }
+  recursive.foo.bar.qux = recursive
+  assert.deepEqual(scrumpy(recursive, { qux: 'qux' }), [ { qux: 'qux' } ])
+})
+
