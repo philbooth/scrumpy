@@ -2,7 +2,16 @@
 
 module.exports = scrump
 
-function scrump (node, criteria, { recursive = true, array = true, visited = new Set() } = {}) {
+function scrump (
+  node,
+  criteria,
+  {
+    all = true,
+    array = true,
+    recursive = true,
+    visited = new Set()
+  } = {}
+) {
   if (visited.has(node)) {
     return []
   }
@@ -15,13 +24,13 @@ function scrump (node, criteria, { recursive = true, array = true, visited = new
 
   if (Array.isArray(node) && array) {
     return node.reduce((results, item) => {
-      return results.concat(scrump(item, criteria, { recursive, array, visited }))
+      return recur(results, item, criteria, { all, array, recursive, visited })
     }, [])
   }
 
   if (isObject(node) && recursive) {
     return Object.keys(node).reduce((results, key) => {
-      return results.concat(scrump(node[key], criteria, { visited }))
+      return recur(results, node[key], criteria, { all, visited })
     }, [])
   }
 
@@ -46,6 +55,14 @@ function match (node, criteria) {
       return match(node[nodeKey], criteria[criteriaKey])
     })
   })
+}
+
+function recur (results, node, criteria, options) {
+  if (! options.all && results.length > 0) {
+    return results
+  }
+
+  return results.concat(scrump(node, criteria, options))
 }
 
 function isObject (node) {

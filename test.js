@@ -136,3 +136,16 @@ test('finds match in infinitely recursive trees', () => {
   assert.deepEqual(scrumpy(recursive, { qux: 'qux' }), [ { qux: 'qux' } ])
 })
 
+test('finds first match', () =>
+  assert.deepEqual(
+    scrumpy(
+      { foo: 'foo', bar: { bar: 'bar', baz: { baz: 'baz', qux: 'qux' } }, baz: { baz: { wibble: 'wibble', blee: 'blee', qux: 'qux' } } },
+      { baz: { qux: 'qux' } },
+      { all: false }
+    ),
+    [
+      { bar: 'bar', baz: { baz: 'baz', qux: 'qux' } }
+    ]
+  )
+)
+

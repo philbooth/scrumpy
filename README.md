@@ -12,6 +12,7 @@ Scrumps all of the juiciest nodes from your trees!
 * [How do I use it?](#how-do-i-use-it)
   * [Loading the library](#loading-the-library)
   * [Finding nodes](#finding-nodes)
+  * [Options](#options)
   * [Examples](#examples)
 * [Does it handle recursive/circular tree structures?](#does-it-handle-recursivecircular-tree-structures)
 * [Is there a change log?](#is-there-a-change-log)
@@ -82,6 +83,22 @@ of properties to match against:
 const nodes = scrumpy(tree, criteria);
 ```
 
+### Options
+
+There is also
+an optional third argument
+to scrumpy.
+You can use it
+to tweak the search behaviour:
+
+```js
+const nodes = scrump(tree, criteria, {
+  recursive: false, // Set to false to only search the root level for matches.
+  array: false,     // Set to false to ignore array items when searching.
+  all: false        // Set to false to only return the first match (depth-first).
+}
+```
+
 ### Examples
 
 Find assignments to `module.exports`
@@ -101,22 +118,29 @@ const nodes = scrumpy(ast, {
 	  name: 'exports'
 	}
   }
+});
+```
+
+Find returns from a function,
+discounting those from any nested functions:
+
+```js
+const nodes = scrumpy(functionNode.body.body, {
+  type: 'ReturnStatement'
+}, {
+  recursive: false
 })
 ```
 
-### Options
-
-There is also
-an optional third argument
-to scrumpy.
-You can use it
-to tweak the search behaviour:
+Find the first `const` declaration:
 
 ```js
-const nodes = scrump(tree, criteria, {
-  recursive: false, // Set to false to only search the root level for matches.
-  array: false      // Set to false to ignore array items when searching.
-}
+const node = scrumpy(ast, {
+  type: 'VariableDeclaration',
+  kind: 'const'
+}, {
+  all: false
+});
 ```
 
 ## Does it handle recursive/circular tree structures?
