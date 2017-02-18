@@ -42,8 +42,9 @@ and [esprima](http://esprima.org/),
 you have to walk the tree
 and interrogate every node.
 
-Instead, scrumpy takes
-a root node and search criteria,
+Instead of doing that yourself,
+scrumpy takes a root node
+and some search criteria,
 then returns an array
 of matching nodes.
 
