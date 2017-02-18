@@ -22,19 +22,28 @@ function scrump (
     return [ node ]
   }
 
-  if (Array.isArray(node) && array) {
-    return node.reduce((results, item) => {
-      return recur(results, item, criteria, { all, array, recursive, visited })
-    }, [])
-  }
+  try {
+    if (Array.isArray(node) && array) {
+      return node.reduce((results, item) => {
+        return recur(results, item, criteria, { all, array, recursive, visited })
+      }, [])
+    }
 
-  if (isObject(node) && recursive) {
-    return Object.keys(node).reduce((results, key) => {
-      return recur(results, node[key], criteria, { all, visited })
-    }, [])
-  }
+    if (isObject(node) && recursive) {
+      return Object.keys(node).reduce((results, key) => {
+        return recur(results, node[key], criteria, { all, visited })
+      }, [])
+    }
 
-  return []
+    return []
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error
+    }
+
+    // `throw` has been abused to stop walking nodes when we have the result
+    return error
+  }
 }
 
 function match (node, criteria) {
@@ -59,7 +68,8 @@ function match (node, criteria) {
 
 function recur (results, node, criteria, options) {
   if (! options.all && results.length > 0) {
-    return results
+    // abuse `throw` to stop walking nodes when we have the result
+    throw results
   }
 
   return results.concat(scrump(node, criteria, options))
