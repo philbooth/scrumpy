@@ -110,14 +110,14 @@ const nodes = scrumpy(ast, {
   type: 'ExpressionStatement',
   left: {
     type: 'MemberExpression',
-	object: {
-	  type: 'Identifier',
-	  name: 'module'
-	},
-	property: {
-	  type: 'Identifier',
-	  name: 'exports'
-	}
+    object: {
+      type: 'Identifier',
+      name: 'module'
+    },
+    property: {
+      type: 'Identifier',
+      name: 'exports'
+    }
   }
 })
 ```
